@@ -1,5 +1,14 @@
 // utils/helpers.js
 
+import React from "react";
+import { View } from "react-native";
+import {
+  FontAwesome,
+  MaterialIcons,
+  MaterialCommunityIcons
+} from "@expo/vector-icons";
+import { white } from "./colors";
+
 export function isBetween(num, x, y) {
   if (num >= x && num <= y) {
     return true;
@@ -42,4 +51,84 @@ export function timeToString(time = Date.now()) {
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
   );
   return todayUTC.toISOString().split("T")[0];
+}
+
+// Object that correlates with the 5 metrics that we are tracking
+// These will contain information that will help us build the UI
+export function getMetricMetaInfo(metric) {
+  const info = {
+    run: {
+      displayName: "Run",
+      max: 50,
+      unit: "miles",
+      step: 1,
+      type: "steppers",
+      getIcon() {
+        return (
+          <View>
+            <MaterialIcons name="directions-run" color={"black"} size={35} />
+          </View>
+        );
+      }
+    },
+    bike: {
+      displayName: "Bike",
+      max: 100,
+      unit: "miles",
+      step: 1,
+      type: "steppers",
+      getIcon() {
+        return (
+          <View>
+            <MaterialCommunityIcons name="bike" color={"black"} size={35} />
+          </View>
+        );
+      }
+    },
+    swim: {
+      displayName: "Swim",
+      max: 9900,
+      unit: "meters",
+      step: 100,
+      type: "steppers",
+      getIcon() {
+        return (
+          <View>
+            <MaterialCommunityIcons name="swim" color={"black"} size={35} />
+          </View>
+        );
+      }
+    },
+    sleep: {
+      displayName: "Sleep",
+      max: 24,
+      unit: "hours",
+      step: 1,
+      type: "slider",
+      getIcon() {
+        return (
+          <View>
+            <FontAwesome name="bed" color={"black"} size={35} />
+          </View>
+        );
+      }
+    },
+    eat: {
+      displayName: "Eat",
+      max: 10,
+      unit: "rating",
+      step: 1,
+      type: "slider",
+      getIcon() {
+        return (
+          <View>
+            <MaterialCommunityIcons name="food" color={"black"} size={35} />
+          </View>
+        );
+      }
+    }
+  };
+
+  // if metric was passed in, return that metric, else return the whole info object
+  return typeof metric === "undefined" ? info : info[metric];
 }
